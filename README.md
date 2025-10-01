@@ -5,13 +5,15 @@ Dự án demo đầy đủ các tính năng bảo mật của **Spring Security 
 ## 🚀 Tính năng
 
 ### 🔐 Spring Security 6
-- **Form-based Authentication**: Đăng nhập qua form với username/password
+- **Form-based Authentication**: Đăng nhập qua form với username/password (cho Web)
+- **JWT Authentication**: Token-based authentication cho REST API
 - **Role-based Authorization**: Phân quyền dựa trên vai trò (ROLE_USER, ROLE_ADMIN)
 - **Password Encryption**: Mã hóa mật khẩu với BCrypt
 - **CSRF Protection**: Bảo vệ chống tấn công CSRF
 - **Session Management**: Quản lý phiên đăng nhập
 - **Custom Login/Logout**: Trang đăng nhập và đăng xuất tùy chỉnh
 - **Access Denied Handling**: Xử lý truy cập bị từ chối
+- **JWT Token Generation & Validation**: Tạo và xác thực JWT token
 
 ### 💾 Database & JPA
 - **H2 In-Memory Database**: Database trong bộ nhớ cho việc demo
@@ -80,13 +82,21 @@ BT_WEB_09/
 │   ├── config/                    # Cấu hình
 │   │   ├── SecurityConfig.java    # Cấu hình Spring Security
 │   │   └── DataInitializer.java   # Khởi tạo dữ liệu mẫu
-│   ├── controller/                # Controllers
+│   ├── controller/                # Web Controllers
 │   │   ├── HomeController.java
 │   │   ├── AuthController.java
 │   │   ├── UserController.java
-│   │   └── AdminController.java
+│   │   ├── AdminController.java
+│   │   └── api/                   # REST API Controllers
+│   │       ├── AuthApiController.java
+│   │       ├── UserApiController.java
+│   │       ├── AdminApiController.java
+│   │       └── PublicApiController.java
 │   ├── dto/                       # Data Transfer Objects
-│   │   └── UserRegistrationDto.java
+│   │   ├── UserRegistrationDto.java
+│   │   ├── JwtRequest.java
+│   │   ├── JwtResponse.java
+│   │   └── MessageResponse.java
 │   ├── entity/                    # JPA Entities
 │   │   ├── User.java
 │   │   └── Role.java
@@ -94,7 +104,9 @@ BT_WEB_09/
 │   │   ├── UserRepository.java
 │   │   └── RoleRepository.java
 │   ├── security/                  # Security classes
-│   │   └── CustomUserDetails.java
+│   │   ├── CustomUserDetails.java
+│   │   ├── JwtUtil.java
+│   │   └── JwtAuthenticationFilter.java
 │   ├── service/                   # Services
 │   │   ├── CustomUserDetailsService.java
 │   │   └── UserService.java
@@ -115,6 +127,8 @@ BT_WEB_09/
 
 ## 🔗 Các URL chính
 
+### Web URLs (Form-based Authentication)
+
 | URL | Mô tả | Quyền truy cập |
 |-----|-------|----------------|
 | `/` | Trang chủ | Public |
@@ -128,6 +142,25 @@ BT_WEB_09/
 | `/h2-console` | H2 Database Console | Public (trong demo) |
 | `/access-denied` | Trang lỗi 403 | Public |
 
+### REST API URLs (JWT Authentication)
+
+| URL | Method | Mô tả | Quyền truy cập |
+|-----|--------|-------|----------------|
+| `/api/public/hello` | GET | Public endpoint | Public |
+| `/api/public/info` | GET | Thông tin ứng dụng | Public |
+| `/api/auth/login` | POST | Đăng nhập & lấy JWT token | Public |
+| `/api/auth/register` | POST | Đăng ký tài khoản | Public |
+| `/api/user/profile` | GET | Xem profile | ROLE_USER |
+| `/api/user/dashboard` | GET | User dashboard | ROLE_USER |
+| `/api/user/update-profile` | POST | Cập nhật profile | ROLE_USER |
+| `/api/admin/dashboard` | GET | Admin dashboard | ROLE_ADMIN |
+| `/api/admin/users` | GET | Danh sách users | ROLE_ADMIN |
+| `/api/admin/users/{id}` | GET | Chi tiết user | ROLE_ADMIN |
+| `/api/admin/users/{id}` | DELETE | Xóa user | ROLE_ADMIN |
+| `/api/admin/stats` | GET | Thống kê | ROLE_ADMIN |
+
+📖 **Xem chi tiết hướng dẫn test API tại file [API_TEST.md](API_TEST.md)**
+
 ## 🗄️ Truy cập H2 Database Console
 
 1. Truy cập: **http://localhost:8080/h2-console**
@@ -140,11 +173,13 @@ BT_WEB_09/
 ## 📚 Các tính năng demo
 
 ### 1. Xác thực (Authentication)
-- ✅ Đăng nhập với username/password
+- ✅ Đăng nhập với username/password (Form-based)
+- ✅ JWT Token Authentication cho REST API
 - ✅ Đăng ký tài khoản mới
 - ✅ Đăng xuất
 - ✅ Ghi nhớ đăng nhập
 - ✅ Thông báo lỗi khi đăng nhập sai
+- ✅ Token expiration & validation
 
 ### 2. Phân quyền (Authorization)
 - ✅ Phân quyền theo vai trò (Role-based)
@@ -155,13 +190,21 @@ BT_WEB_09/
 
 ### 3. Bảo mật
 - ✅ Mã hóa mật khẩu với BCryptPasswordEncoder
-- ✅ CSRF Protection
+- ✅ CSRF Protection (tắt cho API endpoints)
 - ✅ Session Management
 - ✅ Secure Headers
 - ✅ XSS Protection
+- ✅ JWT Token Security
 
-### 4. Quản lý người dùng (Admin)
-- ✅ Xem danh sách người dùng
+### 4. REST API
+- ✅ RESTful API endpoints
+- ✅ JWT Bearer Token authentication
+- ✅ JSON request/response
+- ✅ API documentation với examples
+- ✅ Stateless authentication
+
+### 5. Quản lý người dùng (Admin)
+- ✅ Xem danh sách người dùng (Web & API)
 - ✅ Xóa người dùng
 - ✅ Thống kê người dùng
 - ✅ Truy cập H2 Console
@@ -171,13 +214,16 @@ BT_WEB_09/
 Dự án này demo các khái niệm quan trọng:
 
 1. **Spring Security 6 Configuration**: Cách cấu hình bảo mật hiện đại với SecurityFilterChain
-2. **UserDetailsService**: Tùy chỉnh cách load thông tin user
-3. **PasswordEncoder**: Mã hóa mật khẩu an toàn
-4. **Method Security**: Bảo vệ method với `@PreAuthorize`, `@Secured`
-5. **Thymeleaf Security**: Sử dụng `sec:authorize` trong template
-6. **JPA Relationships**: Quan hệ Many-to-Many
-7. **DTO Pattern**: Sử dụng DTO cho form submission
-8. **Spring Boot Auto-configuration**: Tận dụng tính năng tự động cấu hình
+2. **JWT Authentication**: Implement JWT token cho REST API
+3. **UserDetailsService**: Tùy chỉnh cách load thông tin user
+4. **PasswordEncoder**: Mã hóa mật khẩu an toàn
+5. **Method Security**: Bảo vệ method với `@PreAuthorize`, `@Secured`
+6. **Thymeleaf Security**: Sử dụng `sec:authorize` trong template
+7. **JPA Relationships**: Quan hệ Many-to-Many
+8. **DTO Pattern**: Sử dụng DTO cho form submission và API response
+9. **Custom Filters**: Tạo JWT Authentication Filter
+10. **Stateless vs Stateful**: Kết hợp cả session-based và token-based authentication
+11. **Spring Boot Auto-configuration**: Tận dụng tính năng tự động cấu hình
 
 ## 🔧 Tuỳ chỉnh
 
