@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/header :: header}"></head>
+<body class="d-flex flex-column min-vh-100">
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+    
+    <main class="flex-grow-1">
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="card bg-white">
+                        <div class="card-body p-5 text-center">
+                            <h1 class="display-4 mb-4">
+                                <i class="bi bi-shield-lock-fill text-primary"></i>
+                                Chào mừng đến Spring Security 6 Demo
+                            </h1>
+                            <p class="lead mb-4">
+                                Dự án demo các tính năng bảo mật của Spring Security 6 với Spring Boot, 
+                                Spring Data JPA, H2 Database và giao diện Thymeleaf + Bootstrap
+                            </p>
+                            
+                            <div class="row mt-5">
+                                <div class="col-md-4 mb-3">
+                                    <div class="card h-100 border-primary">
+                                        <div class="card-body">
+                                            <i class="bi bi-lock-fill text-primary" style="font-size: 3rem;"></i>
+                                            <h5 class="card-title mt-3">Xác thực & Phân quyền</h5>
+                                            <p class="card-text">Form-based authentication với role-based authorization</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="card h-100 border-success">
+                                        <div class="card-body">
+                                            <i class="bi bi-database-fill text-success" style="font-size: 3rem;"></i>
+                                            <h5 class="card-title mt-3">JPA & H2 Database</h5>
+                                            <p class="card-text">Spring Data JPA với H2 in-memory database</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="card h-100 border-info">
+                                        <div class="card-body">
+                                            <i class="bi bi-palette-fill text-info" style="font-size: 3rem;"></i>
+                                            <h5 class="card-title mt-3">Modern UI</h5>
+                                            <p class="card-text">Giao diện đẹp mắt với Thymeleaf & Bootstrap 5</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-5">
+                                <div sec:authorize="!isAuthenticated()">
+                                    <a href="/login" class="btn btn-primary btn-lg me-2">
+                                        <i class="bi bi-box-arrow-in-right"></i> Đăng nhập
+                                    </a>
+                                    <a href="/register" class="btn btn-outline-primary btn-lg">
+                                        <i class="bi bi-person-plus"></i> Đăng ký
+                                    </a>
+                                </div>
+                                <div sec:authorize="isAuthenticated()">
+                                    <a href="/home" class="btn btn-success btn-lg">
+                                        <i class="bi bi-house-door"></i> Đi đến Dashboard
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <div class="alert alert-info mt-5" role="alert">
+                                <h5 class="alert-heading">
+                                    <i class="bi bi-info-circle"></i> Tài khoản demo:
+                                </h5>
+                                <hr>
+                                <p class="mb-0">
+                                    <strong>Admin:</strong> Username: <code>admin</code>, Password: <code>admin123</code><br>
+                                    <strong>User:</strong> Username: <code>user</code>, Password: <code>user123</code>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/footer :: scripts}"></div>
+</body>
+</html>

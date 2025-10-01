@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"></head>
+<body class="d-flex flex-column min-vh-100">
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+    
+    <main class="flex-grow-1 d-flex align-items-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <div class="card bg-white">
+                        <div class="card-body p-5 text-center">
+                            <i class="bi bi-x-circle-fill text-danger" style="font-size: 5rem;"></i>
+                            <h1 class="display-4 mt-4">403</h1>
+                            <h2 class="mb-4">Truy cập bị từ chối</h2>
+                            <p class="lead mb-4">
+                                Bạn không có quyền truy cập vào trang này. 
+                                Vui lòng liên hệ quản trị viên nếu bạn cho rằng đây là lỗi.
+                            </p>
+                            <a href="/" class="btn btn-primary btn-lg">
+                                <i class="bi bi-house-door"></i> Về trang chủ
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/footer :: scripts}"></div>
+</body>
+</html>

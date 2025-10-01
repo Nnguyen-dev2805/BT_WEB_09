@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/header :: header}"></head>
+<body class="d-flex flex-column min-vh-100">
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+    
+    <main class="flex-grow-1">
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card bg-white">
+                        <div class="card-body p-5">
+                            <h1 class="mb-4">
+                                <i class="bi bi-house-door-fill text-primary"></i>
+                                Dashboard
+                            </h1>
+                            
+                            <div class="alert alert-success" role="alert">
+                                <h4 class="alert-heading">
+                                    <i class="bi bi-check-circle-fill"></i> Chào mừng!
+                                </h4>
+                                <p>Xin chào <strong sec:authentication="name">User</strong>! Bạn đã đăng nhập thành công vào hệ thống.</p>
+                                <hr>
+                                <p class="mb-0">
+                                    <strong>Vai trò của bạn:</strong> 
+                                    <span sec:authentication="authorities" class="badge bg-primary"></span>
+                                </p>
+                            </div>
+                            
+                            <div class="row mt-4">
+                                <div class="col-md-6 mb-3" sec:authorize="hasRole('USER')">
+                                    <div class="card border-primary">
+                                        <div class="card-body text-center">
+                                            <i class="bi bi-person-circle text-primary" style="font-size: 3rem;"></i>
+                                            <h5 class="card-title mt-3">User Dashboard</h5>
+                                            <p class="card-text">Trang dành cho người dùng thông thường</p>
+                                            <a href="/user/dashboard" class="btn btn-primary">
+                                                <i class="bi bi-arrow-right-circle"></i> Truy cập
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3" sec:authorize="hasRole('ADMIN')">
+                                    <div class="card border-danger">
+                                        <div class="card-body text-center">
+                                            <i class="bi bi-shield-fill-check text-danger" style="font-size: 3rem;"></i>
+                                            <h5 class="card-title mt-3">Admin Dashboard</h5>
+                                            <p class="card-text">Trang quản trị dành cho Admin</p>
+                                            <a href="/admin/dashboard" class="btn btn-danger">
+                                                <i class="bi bi-arrow-right-circle"></i> Truy cập
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card mt-4 bg-light">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <i class="bi bi-info-circle"></i> Thông tin Spring Security
+                                    </h5>
+                                    <ul class="mb-0">
+                                        <li>Form-based authentication được kích hoạt</li>
+                                        <li>Role-based authorization (ROLE_USER, ROLE_ADMIN)</li>
+                                        <li>CSRF protection được bật</li>
+                                        <li>Session management được cấu hình</li>
+                                        <li>Password encoding với BCrypt</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/footer :: scripts}"></div>
+</body>
+</html>

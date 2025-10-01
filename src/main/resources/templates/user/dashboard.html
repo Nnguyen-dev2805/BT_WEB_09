@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/header :: header}"></head>
+<body class="d-flex flex-column min-vh-100">
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+    
+    <main class="flex-grow-1">
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card bg-white">
+                        <div class="card-body p-5">
+                            <h1 class="mb-4">
+                                <i class="bi bi-person-circle text-primary"></i>
+                                User Dashboard
+                            </h1>
+                            
+                            <div class="alert alert-info" role="alert">
+                                <h4 class="alert-heading">
+                                    <i class="bi bi-info-circle-fill"></i> Khu vực người dùng
+                                </h4>
+                                <p>Đây là trang dashboard dành cho người dùng có vai trò <strong>USER</strong>.</p>
+                                <hr>
+                                <p class="mb-0">
+                                    Chào <strong sec:authentication="name">User</strong>! 
+                                    Bạn có thể truy cập các tính năng dành cho người dùng thông thường tại đây.
+                                </p>
+                            </div>
+                            
+                            <div class="row mt-4">
+                                <div class="col-md-4 mb-3">
+                                    <div class="card border-primary">
+                                        <div class="card-body text-center">
+                                            <i class="bi bi-person-badge text-primary" style="font-size: 3rem;"></i>
+                                            <h5 class="card-title mt-3">Hồ sơ</h5>
+                                            <p class="card-text">Xem và chỉnh sửa thông tin cá nhân</p>
+                                            <a href="/user/profile" class="btn btn-outline-primary">
+                                                <i class="bi bi-arrow-right"></i> Xem
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4 mb-3">
+                                    <div class="card border-success">
+                                        <div class="card-body text-center">
+                                            <i class="bi bi-folder text-success" style="font-size: 3rem;"></i>
+                                            <h5 class="card-title mt-3">Tài liệu</h5>
+                                            <p class="card-text">Quản lý tài liệu cá nhân của bạn</p>
+                                            <a href="#" class="btn btn-outline-success">
+                                                <i class="bi bi-arrow-right"></i> Xem
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4 mb-3">
+                                    <div class="card border-info">
+                                        <div class="card-body text-center">
+                                            <i class="bi bi-gear text-info" style="font-size: 3rem;"></i>
+                                            <h5 class="card-title mt-3">Cài đặt</h5>
+                                            <p class="card-text">Tùy chỉnh cài đặt tài khoản</p>
+                                            <a href="#" class="btn btn-outline-info">
+                                                <i class="bi bi-arrow-right"></i> Xem
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card bg-light mt-4">
+                                <div class="card-body">
+                                    <h5>
+                                        <i class="bi bi-shield-check"></i> Quyền truy cập
+                                    </h5>
+                                    <ul class="mb-0">
+                                        <li>✓ Truy cập trang chủ và dashboard chung</li>
+                                        <li>✓ Xem và chỉnh sửa hồ sơ cá nhân</li>
+                                        <li>✓ Quản lý tài liệu của riêng mình</li>
+                                        <li>✗ Không có quyền truy cập Admin Dashboard</li>
+                                        <li>✗ Không có quyền quản lý người dùng khác</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/footer :: scripts}"></div>
+</body>
+</html>
